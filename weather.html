@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Weather API</title>
+	<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="./iconfont/iconfont.css">
+	<style type="text/css" media="screen">
+		.navbar{
+		  margin-bottom:1px;
+		}
+		.container .box{
+		  width: 90%;
+		  margin:10% auto;
+		  padding: 1% 5%;
+		  background: black;
+		  opacity: .75;
+		  color: white;
+		  font-size: 1.5em;
+		  border-radius:10px ;
+		  box-shadow: 2px 2px 3px gray;
+		}
+		.navbar-right{
+			padding-right: 20px;
+		}
+		/*.currentWeather p{
+			margin-bottom: 0;
+		}*/
+	</style>
+	<script type="text/javascript">
+		$(function(){
+			$.getJSON("http://freegeoip.net/json/",function(data){
+				var cityName = data.city;
+				var latitude = data.latitude;
+				var longitude = data.longitude;
+				console.log(cityName);
+				console.log(data);
+
+				var url = "http://api.openweathermap.org/data/2.5/weather?lat="+latitude+"&lon="+longitude+"&appid=f3b5dda8b8e07e91850ca8bad7b0afd5";
+				$.getJSON(url,function(data){
+					console.log(data);
+					var temp = Math.round(data.main.temp) + "°F";
+					$(".currentWeather .cityName").text(data.name);
+					$(".currentWeather .temp").text(temp);
+					$(".currentWeather .wind").text(data.wind.speed);
+				})
+
+				$("#fTocBtn").click(function(){
+					$(".currentWeather .temp").text(fTocToggle($(".currentWeather .temp").text()));
+				})
+			})
+		})
+
+		function fTocToggle(temp){
+			var num;
+			if(temp.indexOf('F') != -1){
+				num = Math.round((parseInt(temp)-32)*5/9) + "°C";
+			}else{
+				num = Math.round(parseInt(temp)*9/5+32) + "°F";
+			}
+			return num;
+
+		}
+	</script>
+</head>
+<body>
+	 <div class="container">
+		   <div class="navbar navbar-inverse navbar-fixed-top">
+			  <div class="navbar-header">
+				<a href="#" class="navbar-brand">
+				  Weather App
+				</a>
+			  </div>
+				<ul class="nav navbar-nav navbar-right">
+				  <li ><a class="#" id="fTocBtn"><span class="glyphicon glyphicon-hand-right"></span> F/C</a></li>
+				  <li><a class="#"><span class="glyphicon glyphicon-user"></span> My CodePen</a></li>
+				</ul>
+	  		</div>
+	    <div class="box">
+	      <div class="text-center">Show the Local Weather</div>
+	      <div class="currentWeather">
+	      	<p>位置<span class="iconfont icon-zuobiao"></span> <span class="cityName"></span></p>
+	      	<p>温度<span class="iconfont icon-xiaolian"></span> <span class="temp"></span></p>
+	      	<p>风力<span class="iconfont icon-feng"></span> <span class="wind"></span></p>
+	      </div>
+	    </div>
+	  </div>
+</body>
+</html>
