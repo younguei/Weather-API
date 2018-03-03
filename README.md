@@ -3,6 +3,7 @@
 You can use the [editor on GitHub](https://github.com/younguei/Weather-API/edit/gh-pages/README.md) to maintain and preview the content for your website in Markdown files.
 
 Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+使用了两个api，一个是根据ip地址自动获取城市坐标名，一个是获取当前天气json数据
 
 ### Markdown
 
