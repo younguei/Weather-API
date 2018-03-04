@@ -42,8 +42,8 @@
 				$.getJSON(url,function(data){
 					console.log(data);
 					var temp = Math.round(data.main.temp) + "°F";
-					$(".currentWeather .cityName").text(data.sys.country);
-					$(".currentWeather .country").text(temp);
+					$(".currentWeather .cityName").text(data.name);
+					$(".currentWeather .country").text(data.sys.country);
 					$(".currentWeather .longitude").text(data.coord.lon);
 					$(".currentWeather .latitude").text(data.coord.lat);
 					$(".box .currentTemp span").text(fTocToggle(temp));
