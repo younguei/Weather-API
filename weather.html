@@ -12,7 +12,7 @@
 		  margin-bottom:1px;
 		}
 		.container .box{
-		  width: 90%;
+		  width: 60%;
 		  margin:10% auto;
 		  padding: 1% 5%;
 		  background: black;
@@ -31,24 +31,30 @@
 	</style>
 	<script type="text/javascript">
 		$(function(){
-			$.getJSON("http://freegeoip.net/json/",function(data){
+			$.getJSON("https://freegeoip.net/json/",function(data){
 				var cityName = data.city;
 				var latitude = data.latitude;
 				var longitude = data.longitude;
 				console.log(cityName);
 				console.log(data);
 
-				var url = "http://api.openweathermap.org/data/2.5/weather?lat="+latitude+"&lon="+longitude+"&appid=f3b5dda8b8e07e91850ca8bad7b0afd5";
+				var url = "https://api.openweathermap.org/data/2.5/weather?lat="+latitude+"&lon="+longitude+"&units=imperial&appid=f3b5dda8b8e07e91850ca8bad7b0afd5";
 				$.getJSON(url,function(data){
 					console.log(data);
 					var temp = Math.round(data.main.temp) + "°F";
 					$(".currentWeather .cityName").text(data.name);
-					$(".currentWeather .temp").text(temp);
-					$(".currentWeather .wind").text(data.wind.speed);
+					$(".currentWeather .country").text(temp);
+					$(".currentWeather .longitude").text(data.coord.lon);
+					$(".currentWeather .latitude").text(data.coord.lat);
+					$(".box .currentTemp span").text(fTocToggle(temp));
+					var iconSrc = "http://openweathermap.org/img/w/"+data.weather[0].icon+".png";
+					$(".box .currentTemp").prepend("<img src='"+iconSrc+"'/>");
+					$(".box .currentDesc").text(data.weather[0].main);
+
 				})
 
 				$("#fTocBtn").click(function(){
-					$(".currentWeather .temp").text(fTocToggle($(".currentWeather .temp").text()));
+					$(".box .currentTemp span").text(fTocToggle($(".box .currentTemp span").text()));
 				})
 			})
 		})
@@ -79,11 +85,14 @@
 				</ul>
 	  		</div>
 	    <div class="box">
-	      <div class="text-center">Show the Local Weather</div>
+	      <div class="text-center h2">Show the Local Weather</div>
+	      <div class="currentTemp h3 text-center"><span></span></div>
+	      <div class="currentDesc h3 text-center">...</div>
 	      <div class="currentWeather">
-	      	<p>位置<span class="iconfont icon-zuobiao"></span> <span class="cityName"></span></p>
-	      	<p>温度<span class="iconfont icon-xiaolian"></span> <span class="temp"></span></p>
-	      	<p>风力<span class="iconfont icon-feng"></span> <span class="wind"></span></p>
+	      	<p>Country name: <span class="country"></span></p>
+	      	<p>City: <span class="cityName"></span></p>
+	      	<p>Latitude: <span class="latitude"></span></p>
+	      	<p>Longitude: <span class="longitude"></span></p>
 	      </div>
 	    </div>
 	  </div>
